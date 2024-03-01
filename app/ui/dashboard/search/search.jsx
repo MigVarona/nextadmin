@@ -10,11 +10,18 @@ const Search = ({placeholder}) => {
   const {replace} = useRouter();
   const pathname = usePathname();
 
-  const params = new URLSearchParams(searchParams)
 
-  params.set("test", "value")
+const handleSearch = (e) => {
+  const params = new URLSearchParams(searchParams);
 
-  replace(`${pathname}?${params}`)
+
+  if (e.target.value) {
+    params.set("q", e.target.value);
+  } else {
+    params.delete("q");
+  }
+  replace(`${pathname}?${params}`);
+};
 
   console.log(searchParams)
   console.log(pathname)
@@ -24,7 +31,7 @@ const Search = ({placeholder}) => {
     return (
         <div className={styles.container}>
             <MdSearch/>
-            <input type="text" placeholder={placeholder} className={styles.input} />
+            <input type="text" placeholder={placeholder} className={styles.input} onChange={handleSearch} />
         </div>
     )
 }
